@@ -1,0 +1,9 @@
+
+platform :ios, '10.0'
+target “ReactiveCocoa” do
+
+pod 'ReactiveObjC'
+pod 'AFNetworking', '~> 3.1.0'
+
+# use_framework !
+end
