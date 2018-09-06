@@ -11,5 +11,7 @@
 #import "AFNetworking.h"
 
 @interface RequestViewModel : NSObject
-@property(nonatomic, strong, readonly)RACCommand *requestCommand;
+
+@property(nonatomic, strong, readonly)RACCommand *requestCommand;/** 为了避免外部修改，可以使用readOnly */
+
 @end

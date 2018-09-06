@@ -12,7 +12,7 @@
 #import "RequestViewModel.h"
 
 @interface ViewController ()
-// 请求视图模型
+/** 请求视图模型 */
 @property(nonatomic, strong)RequestViewModel *requestVM;
 
 @end
@@ -26,16 +26,12 @@
     return _requestVM;
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // GET  https://api.douban.com/v2/book/search
-    
-    // 发送请求
+   /** 发送请求接受信号: */
    RACSignal *signal = [self.requestVM.requestCommand execute:nil];
-    [signal subscribeNext:^(id x) {
-        NSLog(@"%@",x);
+    [signal subscribeNext:^(id data) {
+        NSLog(@"%@",data);
     }];
     
 }

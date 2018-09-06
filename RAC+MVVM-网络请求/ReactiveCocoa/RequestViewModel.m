@@ -17,36 +17,32 @@
     return self;
 }
 
+/** 通过RACCommand的类来处理 */
 - (void)setup {
-    
     _requestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-        // 执行命令
-        // 发送请求
-        // 创建信号 把发送请求的代码包装到信号里面。
+        /** 执行命令 */
+        /** 发送请求 */
         RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+            /** 创建信号 把发送请求的代码包装到信号里面。 */
             AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
             [manager GET:@"https://api.douban.com/v2/book/search" parameters:@{@"q":@"帅哥"} progress:^(NSProgress * _Nonnull downloadProgress) {
                 
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [responseObject writeToFile:@"/Users/wang/Desktop/plist/sg.plist" atomically:YES];
-                // 请求成功的时候调用
-//                NSLog(@"%@", responseObject);
-                // 在这里就可以拿到数据，将其丢出去
+                /** 请求成功的时候调用 */
                 NSArray *dictArr = responseObject[@"books"];
-                // 便利books字典数组，将其映射为模型数组
+                /** 遍历books字典数组，将其映射为模型数组 */
                 NSArray *modelArr = [[dictArr.rac_sequence map:^id(id value) {
                     return [[NSObject alloc] init];
                 }] array];
-                
                 [subscriber sendNext:modelArr];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                
+                /** 请求失败的时候调用 */
+                [subscriber sendNext:@"404"];
             }];
             return nil;
-        }];
-        
-        return signal;  // 模型数组
+        }];        
+        return signal;  /** 模型数组 */
     }];
-    
 }
 @end
