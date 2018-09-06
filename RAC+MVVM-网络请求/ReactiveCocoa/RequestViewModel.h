@@ -10,8 +10,11 @@
 #import "ReactiveObjC.h"
 #import "AFNetworking.h"
 
-@interface RequestViewModel : NSObject
+@interface RequestViewModel : NSObject{
+    NSDictionary *_parametersDic;
+}
 
+@property(nonatomic,strong)NSDictionary *parameters;
 @property(nonatomic, strong, readonly)RACCommand *requestCommand;/** 为了避免外部修改，可以使用readOnly */
 
 @end

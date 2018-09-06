@@ -29,6 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    /** 发送请求接受信号: */
+   NSDictionary *dic = @{@"q":@"帅哥"};
+   self.requestVM.parameters = dic;
    RACSignal *signal = [self.requestVM.requestCommand execute:nil];
     [signal subscribeNext:^(id data) {
         NSLog(@"%@",data);

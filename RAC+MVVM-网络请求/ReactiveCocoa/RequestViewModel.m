@@ -17,6 +17,11 @@
     return self;
 }
 
+-(void)setParameters:(NSDictionary *)parameters
+{
+    _parametersDic = parameters;
+}
+
 /** 通过RACCommand的类来处理 */
 - (void)setup {
     _requestCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
@@ -25,7 +30,7 @@
         RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
             /** 创建信号 把发送请求的代码包装到信号里面。 */
             AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-            [manager GET:@"https://api.douban.com/v2/book/search" parameters:@{@"q":@"帅哥"} progress:^(NSProgress * _Nonnull downloadProgress) {
+            [manager GET:@"https://api.douban.com/v2/book/search" parameters:_parametersDic progress:^(NSProgress * _Nonnull downloadProgress) {
                 
             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 [responseObject writeToFile:@"/Users/wang/Desktop/plist/sg.plist" atomically:YES];
